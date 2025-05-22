@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigganBondhu - Interactive Science Education Platform</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 75%, #f5576c 100%);
+            overflow-x: hidden;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .presentation-container {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .slide {
+            width: 100vw;
+            min-height: 100vh;
+            padding: 60px 80px;
+            position: relative;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            page-break-after: always;
+        }
+
+        .slide-header {
+            position: absolute;
+            top: 40px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .hackathon-badge {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 10px 30px rgba(255,107,107,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .slide-number {
+            background: rgba(255,255,255,0.15);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 1rem;
+        }
+
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffd700, #ffed4e, #fff176);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        h2 {
+            font-size: 3.8rem;
+            margin-bottom: 2.5rem;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 2.2rem;
+            color: #e0e6ed;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .tagline {
+            font-size: 1.6rem;
+            color: #b3c6e7;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .team-card {
+            background: rgba(255,255,255,0.08);
+            padding: 4rem;
+            border-radius: 25px;
+            margin: 2rem 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .team-name {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ffd700, #ff9800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2.5rem;
+            font-weight: 800;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .member-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.08));
+            padding: 2.5rem;
+            border-radius: 20px;
+            min-width: 300px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .member-role {
+            color: #b3c6e7;
+            font-size: 1.1rem;
+            margin-top: 0.8rem;
+            font-weight: 500;
+        }
+
+        .links-section {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .link-card {
+            background: rgba(255,255,255,0.08);
+            padding: 3.5rem;
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            min-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .app-link {
+            background: linear-gradient(135deg, rgba(0,210,255,0.15), rgba(58,123,213,0.15));
+            border: 1px solid rgba(0,210,255,0.3);
+        }
+
+        .github-link {
+            background: linear-gradient(135deg, rgba(51,51,51,0.15), rgba(85,85,85,0.15));
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .link-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 1.5rem 3rem;
+            border-radius: 35px;
+            margin-top: 1.5rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .link-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .content-card {
+            background: rgba(255,255,255,0.08);
+            padding: 3.5rem;
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.08);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            text-align: left;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 1.2rem 0;
+            padding-left: 2.5rem;
+            position: relative;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #e0e6ed;
+        }
+
+        li::before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.4rem;
+        }
+
+        .problem-highlight, .solution-highlight {
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .problem-highlight {
+            background: linear-gradient(135deg, rgba(255,107,107,0.15), rgba(238,90,36,0.15));
+            border: 1px solid rgba(255,107,107,0.3);
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .solution-highlight {
+            background: linear-gradient(135deg, rgba(0,210,255,0.15), rgba(16,172,132,0.15));
+            border: 1px solid rgba(0,210,255,0.3);
+            border-left: 5px solid #00d2ff;
+        }
+
+        .impact-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 200px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ff9800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-circle:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            top: 15%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .floating-circle:nth-child(2) {
+            width: 180px;
+            height: 180px;
+            top: 55%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .floating-circle:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Print styles for PDF generation */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .slide {
+                page-break-after: always;
+                min-height: 100vh;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 40px 60px;
+            }
+            h1 { font-size: 4rem; }
+            h2 { font-size: 3rem; }
+            .content-grid, .feature-grid, .tech-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 40px;
+            }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.5rem; }
+            .team-members {
+                flex-direction: column;
+                align-items: center;
+            }
+            .links-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="floating-elements">
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+            <div class="floating-circle"></div>
+        </div>
+
+        <!-- Slide 1: Title & Team -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">🏆 HACKATHON 2025</div>
+                <div class="slide-number">1 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h1>BigganBondhu</h1>
+                <div class="subtitle">Interactive Science Education Platform</div>
+                <div class="tagline">"Democratizing Science Education for All Bangladeshi Learners"</div>
+                <div class="team-card">
+                    <div class="team-name">Team: Farmers_Community</div>
+                    <div class="team-members">
+                        <div class="member-card">
+                            <h4>👨‍💻 Hasnain Sheikh</h4>
+                            <div class="member-role">Full Stack Developer</div>
+                        </div>
+                        <div class="member-card">
+                            <h4>👨‍💻 Md. Rakibul Islam</h4>
+                            <div class="member-role">Backend Developer</div>
+                        </div>
+                        <div class="member-card">
+                            <h4>👨‍💻 Md. Kamrul Hasan</h4>
+                            <div class="member-role">Frontend Developer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Live Demo & Repository -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">🚀 LIVE PROJECT</div>
+                <div class="slide-number">2 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🌐 Project Showcase</h2>
+                <div class="links-section">
+                    <div class="link-card app-link">
+                        <h3>🌟 Live Application</h3>
+                        <p style="margin: 1rem 0; font-size: 1.2rem;">Experience our revolutionary platform in action</p>
+                        <a href="https://it-hackathon-2025-17zv.vercel.app/" target="_blank" class="link-btn">
+                            🚀 Launch Platform
+                        </a>
+                        <div style="margin-top: 1.5rem; font-size: 1rem; opacity: 0.8; color: #b3c6e7;">
+                            ⚡ Deployed on Vercel • Fully Functional
+                        </div>
+                    </div>
+                    <div class="link-card github-link">
+                        <h3>📂 Source Code</h3>
+                        <p style="margin: 1rem 0; font-size: 1.2rem;">Complete project repository with documentation</p>
+                        <a href="https://github.com/Rakibul1411/SNBOSE-Hackathon-2025" target="_blank" class="link-btn">
+                            📋 View Repository
+                        </a>
+                        <div style="margin-top: 1.5rem; font-size: 1rem; opacity: 0.8; color: #b3c6e7;">
+                            📖 Open Source • Well Documented
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-highlight">
+                    <h3 style="color: #00d2ff; margin-bottom: 1rem;">✨ Ready for Evaluation</h3>
+                    <p style="font-size: 1.3rem; opacity: 0.9; line-height: 1.6;">
+                        Both live demonstration and complete source code are immediately accessible for judges and evaluators. 
+                        The platform is fully operational with all features implemented and tested.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Problem Statement -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">🎯 PROBLEM</div>
+                <div class="slide-number">3 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🔍 The Educational Challenge</h2>
+                <div class="problem-highlight">
+                    <h3 style="color: #ff6b6b; margin-bottom: 2rem;">📚 Critical Gaps in Science Education</h3>
+                    <p style="font-size: 1.5rem; line-height: 1.8; margin-bottom: 2rem;">
+                        Traditional science education in Bangladesh faces <strong>multiple systemic barriers</strong> 
+                        that prevent millions of students from accessing quality, engaging learning experiences.
+                    </p>
+                </div>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h4 style="color: #ff6b6b; margin-bottom: 1.5rem;">🚫 Learning Barriers</h4>
+                        <ul>
+                            <li><strong>Lack of Interactive Methods</strong> - Traditional lecture-based approach</li>
+                            <li><strong>Limited Practical Exposure</strong> - Insufficient hands-on experience</li>
+                            <li><strong>Language Accessibility</strong> - Complex English scientific content</li>
+                            <li><strong>Geographic Limitations</strong> - Rural students lack quality resources</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h4 style="color: #ffd700; margin-bottom: 1.5rem;">👥 Affected Demographics</h4>
+                        <ul>
+                            <li><strong>School & College Students</strong> - Ages 16-19 seeking engaging content</li>
+                            <li><strong>Undergraduate Students</strong> - Need advanced scientific resources</li>
+                            <li><strong>Students with Disabilities</strong> - Require accessible learning tools</li>
+                            <li><strong>Self-motivated Learners</strong> - Lacking structured guidance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Our Solution -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">💡 SOLUTION</div>
+                <div class="slide-number">4 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🚀 BigganBondhu: Complete Solution</h2>
+                <div class="solution-highlight">
+                    <h3 style="color: #00d2ff; margin-bottom: 1rem;">🎯 Comprehensive Educational Ecosystem</h3>
+                    <p style="font-size: 1.4rem; line-height: 1.7;">
+                        A unified platform that combines <strong>interactive learning</strong>, <strong>community engagement</strong>, 
+                        and <strong>accessibility features</strong> to revolutionize science education in Bangladesh.
+                    </p>
+                </div>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h3 style="color: #00d2ff;">🎮 VisualLearn Module</h3>
+                        <ul>
+                            <li><strong>Subject Organization</strong> - Math, Physics, Chemistry, Biology, Astronomy, Medical</li>
+                            <li><strong>Hierarchical Structure</strong> - Subjects → Chapters → Topics</li>
+                            <li><strong>Multi-modal Content</strong> - Bengali/English translation support</li>
+                            <li><strong>AI-Powered Chatbot</strong> - Topic-specific intelligent responses</li>
+                            <li><strong>Audio Narration</strong> - Accessibility for visually impaired users</li>
+                            <li><strong>Interactive Simulations</strong> - Real-time parameter manipulation</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3 style="color: #ffd700;">🌐 IdeaVerse Community</h3>
+                        <ul>
+                            <li><strong>Subject-specific Forums</strong> - Dedicated spaces for each science domain</li>
+                            <li><strong>Tag-based Organization</strong> - Mathematical, analogical, descriptive content</li>
+                            <li><strong>Post Types</strong> - Questions and discussions with moderation</li>
+                            <li><strong>Engagement Features</strong> - Upvoting, commenting, knowledge sharing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="background: rgba(0,210,255,0.1); padding: 2.5rem; border-radius: 15px; margin-top: 2rem; border-left: 5px solid #00d2ff;">
+                    <h4 style="color: #00d2ff; margin-bottom: 1rem;">🎯 Core Innovation</h4>
+                    <p style="font-size: 1.3rem; line-height: 1.6;">
+                        <strong>Unified Learning Ecosystem</strong> that combines interactive simulations, AI assistance, 
+                        gamification, and community learning - specifically designed for Bangladeshi educational context.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Key Features & Innovation -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">⚡ FEATURES</div>
+                <div class="slide-number">5 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🌟 Innovation & Key Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3 style="color: #ffd700; margin-bottom: 1.5rem;">🎮 Gamified Learning</h3>
+                        <ul>
+                            <li>Interactive quizzes and challenges</li>
+                            <li>Progress tracking with achievements</li>
+                            <li>Real-time performance analytics</li>
+                            <li>Subject-wise learning paths</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="color: #00d2ff; margin-bottom: 1.5rem;">🔬 Real-time Simulations</h3>
+                        <ul>
+                            <li>Physics experiment simulations</li>
+                            <li>Chemistry reaction visualizations</li>
+                            <li>Mathematical concept demonstrations</li>
+                            <li>Astronomy and medical visualizations</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="color: #10ac84; margin-bottom: 1.5rem;">🌍 Language & Accessibility</h3>
+                        <ul>
+                            <li>Bengali/English dual language support</li>
+                            <li>Multiple input methods support</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="color: #ff6b6b; margin-bottom: 1.5rem;">🤖 AI Integration</h3>
+                        <ul>
+                            <li>Intelligent topic-specific responses</li>
+                            <li>Personalized learning recommendations</li>
+                            <li>Adaptive content difficulty</li>
+                            <li>Smart progress analysis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="solution-highlight">
+                    <h3 style="color: #00d2ff; margin-bottom: 1rem;">🏆 Unique Value Proposition</h3>
+                    <p style="font-size: 1.3rem; line-height: 1.7;">
+                        <strong>First-of-its-kind</strong> comprehensive science education platform in Bangladesh that combines 
+                        cutting-edge technology with local context, creating an inclusive learning environment where 
+                        <strong>every student can thrive regardless of their background or abilities</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Target Audience & Impact -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">👥 AUDIENCE</div>
+                <div class="slide-number">6 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🎯 Target Audience & Expected Impact</h2>
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h3 style="color: #ffd700; margin-bottom: 1.5rem;">👨‍🎓 Primary Audience</h3>
+                        <ul>
+                            <li><strong>School Students</strong> - Ages 16-19 seeking interactive science content</li>
+                            <li><strong>College Students</strong> - Advanced learners preparing for higher education</li>
+                            <li><strong>Undergraduate Students</strong> - Ages 19+ requiring comprehensive resources</li>
+                            <li><strong>Medical Students</strong> - Specialized content for medical sciences</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3 style="color: #10ac84; margin-bottom: 1.5rem;">🌟 Secondary Audience</h3>
+                        <ul>
+                            <li><strong>Self-motivated Learners</strong> - Independent science enthusiasts</li>
+                            <li><strong>Students with Disabilities</strong> - Requiring accessible learning tools</li>
+                            <li><strong>Rural Students</strong> - Limited access to quality education</li>
+                            <li><strong>Teachers & Educators</strong> - Seeking interactive teaching resources</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="solution-highlight">
+                    <h3 style="color: #00d2ff; margin-bottom: 1rem;">📈 Measurable Impact</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+                        <div>
+                            <h4 style="color: #ffd700; margin-bottom: 1rem;">📊 Engagement Metrics</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li>• Active user tracking</li>
+                                <li>• Session duration analysis</li>
+                                <li>• Feature usage statistics</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #10ac84; margin-bottom: 1rem;">🎯 Learning Outcomes</h4>
+                            <ul style="list-style: none; padding: 0;">
+                                <li>• Knowledge retention rates</li>
+                                <li>• Skill improvement tracking</li>
+                                <li>• Educational progress metrics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Technology Stack -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">⚙️ TECH STACK</div>
+                <div class="slide-number">7 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🔧 Technology Architecture</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <h3 style="color: #00d2ff; margin-bottom: 1rem;">🎨 Frontend</h3>
+                        <ul style="text-align: left;">
+                            <li>React.js & Nextjs with modern hooks</li>
+                            <li>Tailwind CSS for styling</li>
+                            <li>Responsive design patterns</li>
+                            <li>Component-based architecture</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h3 style="color: #ffd700; margin-bottom: 1rem;">⚡ Backend</h3>
+                        <ul style="text-align: left;">
+                            <li>Node.js runtime environment</li>
+                            <li>Express.js web framework</li>
+                            <li>RESTful API architecture</li>
+                            <li>Middleware implementation</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h3 style="color: #10ac84; margin-bottom: 1rem;">🗄️ Database</h3>
+                        <ul style="text-align: left;">
+                            <li>Supabase for flexibility</li>
+                            <li>Relational Database</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h3 style="color: #ff6b6b; margin-bottom: 1rem;">🤖 AI Integration</h3>
+                        <ul style="text-align: left;">
+                            <li>Google Gemini API</li>
+                            <li>Context-aware responses</li>
+                            <li>Natural language processing</li>
+                            <li>Intelligent content generation</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h3 style="color: #9c88ff; margin-bottom: 1rem;">🔊 Accessibility</h3>
+                        <ul style="text-align: left;">
+                            <li>Speech-Text-to integration</li>
+                            <li>Multi-language support</li>
+                            <li>Screen reader compatibility</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <h3 style="color: #ff9800; margin-bottom: 1rem;">☁️ Deployment</h3>
+                        <ul style="text-align: left;">
+                            <li>Vercel hosting platform</li>
+                            <li>Continuous deployment</li>
+                            <li>Global CDN distribution</li>
+                            <li>Performance optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Conclusion & Call to Action -->
+        <div class="slide">
+            <div class="slide-header">
+                <div class="hackathon-badge">🎉 CONCLUSION</div>
+                <div class="slide-number">8 / 8</div>
+            </div>
+            <div class="slide-content">
+                <h2>🚀 Transforming Education Together</h2>
+                <div class="solution-highlight">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2rem 0;">
+                        <div>
+                            <h4 style="color: #ffd700; margin-bottom: 1rem;">✅ Comprehensive Solution</h4>
+                            <ul style="text-align: left;">
+                                <li>Complete educational ecosystem</li>
+                                <li>Multiple learning modalities</li>
+                                <li>Community-driven knowledge sharing</li>
+                                <li>AI-powered personalization</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: #10ac84; margin-bottom: 1rem;">🎯 Real Impact</h4>
+                            <ul style="text-align: left;">
+                                <li>Addresses genuine educational needs</li>
+                                <li>Inclusive and accessible design</li>
+                                <li>Scalable to millions of users</li>
+                                <li>Measurable learning outcomes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-grid" style="margin: 3rem 0;">
+                    <div class="content-card">
+                        <h3 style="color: #ff6b6b; margin-bottom: 1.5rem;">🏆 Competition Advantages</h3>
+                        <ul>
+                            <li><strong>Technical Excellence</strong> - Modern, scalable architecture</li>
+                            <li><strong>User-Centric Design</strong> - Intuitive and accessible interface</li>
+                            <li><strong>Innovation Factor</strong> - AI integration with local context</li>
+                            <li><strong>Social Impact</strong> - Addresses critical educational gaps</li>
+                        </ul>
+                    </div>
+                    <div class="content-card">
+                        <h3 style="color: #9c88ff; margin-bottom: 1.5rem;">🔮 Future Roadmap</h3>
+                        <ul>
+                            <li><strong>Advanced AI Features</strong> - Predictive learning analytics</li>
+                            <li><strong>Mobile Applications</strong> - iOS and Android native apps</li>
+                            <li><strong>Offline Capabilities</strong> - Content synchronization</li>
+                            <li><strong>Institutional Partnerships</strong> - School, College, Medical, and university integration</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,152,0,0.15)); padding: 3rem; border-radius: 20px; margin: 2rem 0; border: 1px solid rgba(255,215,0,0.3);">
+                    <h3 style="color: #ffd700; margin-bottom: 1.5rem; font-size: 2.5rem;">🎯 Our Commitment</h3>
+                    <p style="font-size: 1.4rem; line-height: 1.8; margin-bottom: 2rem;">
+                        BigganBondhu represents more than just a platform—it's a <strong>movement toward educational equity</strong>. 
+                        We're committed to making quality science education accessible to every Bangladeshi learner, 
+                        regardless of their location, economic status, or physical abilities.
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <h3 style="color: #ffd700; margin-bottom: 1rem; font-size: 2.2rem;">🙏 Thank You</h3>
+                    <p style="font-size: 1.3rem; color: #e0e6ed; margin-bottom: 2rem;">
+                        Ready to revolutionize science education in Bangladesh with us?
+                    </p>
+                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                        <a href="https://it-hackathon-2025-17zv.vercel.app/" target="_blank" 
+                           style="background: linear-gradient(135deg, #00d2ff, #0084ff); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; transform: translateY(0); transition: all 0.3s ease;">
+                            🚀 Experience BigganBondhu
+                        </a>
+                        <a href="https://github.com/Rakibul1411/SNBOSE-Hackathon-2025" target="_blank" 
+                           style="background: linear-gradient(135deg, #333, #666); color: white; padding: 1rem 2rem; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: inline-block; transform: translateY(0); transition: all 0.3s ease;">
+                            📂 Explore Source Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling between slides
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                e.preventDefault();
+                const slides = document.querySelectorAll('.slide');
+                const currentSlide = Array.from(slides).find(slide => 
+                    slide.getBoundingClientRect().top >= -100 && slide.getBoundingClientRect().top <= 100
+                );
+                const currentIndex = Array.from(slides).indexOf(currentSlide);
+                if (currentIndex < slides.length - 1) {
+                    slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                const slides = document.querySelectorAll('.slide');
+                const currentSlide = Array.from(slides).find(slide => 
+                    slide.getBoundingClientRect().top >= -100 && slide.getBoundingClientRect().top <= 100
+                );
+                const currentIndex = Array.from(slides).indexOf(currentSlide);
+                if (currentIndex > 0) {
+                    slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        // Add hover effects to buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.link-btn, a[style*="background: linear-gradient"]');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px) scale(1.05)';
+                    this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.3)';
+                });
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
